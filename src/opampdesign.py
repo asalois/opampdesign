@@ -13,6 +13,7 @@ op2m = np.array([7*10**5, 5*10**6, 1.7*10**-6])
 # target specs = [Gain, input resistance, Vpp out, full power bandwidth]
 targets = np.array([100, 50, 4, 150*10**3])
 
+
 # input the op-amp
 def get_gpb(array):
     gbp = array[1] * array[3]
@@ -25,6 +26,12 @@ def find_corner(k, array):
     return corner
 
 
+# input output voltage Vpp and frequency needed
+def find_sr(v, f):
+    sr = v*mt.pi*f
+    return sr
+
+
 # input f is the bandwidth
 def calc_pole_mag(f):
     p = targets[4] / f
@@ -32,7 +39,7 @@ def calc_pole_mag(f):
     return mag
 
 
-# input (number of op-amps, array of closed loop bandwidths)
+# input (array of closed loop bandwidths)
 def is_3db(array):
     mag = 1
     for i, line in enumerate(array):
@@ -41,3 +48,7 @@ def is_3db(array):
         return True
     else:
         return False
+
+
+sr = find_sr(5, 130000)
+print('sr=', sr/10**6, 'V/us')
