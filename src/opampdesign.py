@@ -66,6 +66,6 @@ def is_3db(array):
         return False
 
 
-find_gain()
+# find_gain()
 sr = find_sr(targets[2], targets[3])
 print('sr=', sr/10**6, 'V/us')
