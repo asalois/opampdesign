@@ -14,6 +14,8 @@ op2m = np.array([7*10**5, 5*10**6, 1.7*10**-6])
 targets = np.array([100, 50, 5, 150*10**3])
 
 
+f = np.loadtxt('Gain Combos.txt', unpack=True)
+
 # input the op-amp
 def get_gpb(array):
     gbp = array[1] * array[3]
