@@ -11,7 +11,7 @@ op2t = np.array([15*10**5, 8*10**6, 2.8*10**-6])
 op2m = np.array([7*10**5, 5*10**6, 1.7*10**-6])
 
 # target specs = [Gain, input resistance, Vpp out, full power bandwidth]
-targets = np.array([100, 50, 4, 150*10**3])
+targets = np.array([100, 50, 5, 150*10**3])
 
 
 # input the op-amp
@@ -39,6 +39,22 @@ def calc_pole_mag(f):
     return mag
 
 
+def find_gain():
+    for i in range(0, 101):
+        for j in range(0, 101):
+            if i * j == 100:
+                print(i, j)
+            for k in range(0, 101):
+                if i * j * k == 100 and i != 1 and j != 1 and k != 1:
+                    print(i, j, k)
+                for l in range(0, 101):
+                    if i * j * k * l == 100 and i != 1 and j != 1 and k != 1 and l != 1:
+                        print(i, j, k, l)
+                    for m in range(0, 101):
+                        if i * j * k * l * m == 100 and i != 1 and j != 1 and k != 1 and l != 1 and m != 1:
+                            print(i, j, k, l, m)
+
+
 # input (array of closed loop bandwidths)
 def is_3db(array):
     mag = 1
@@ -50,5 +66,6 @@ def is_3db(array):
         return False
 
 
-sr = find_sr(5, 130000)
+find_gain()
+sr = find_sr(targets[2], targets[3])
 print('sr=', sr/10**6, 'V/us')
