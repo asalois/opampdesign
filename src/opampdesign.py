@@ -11,10 +11,9 @@ op2t = np.array([15*10**5, 8*10**6, 2.8*10**-6])
 op2m = np.array([7*10**5, 5*10**6, 1.7*10**-6])
 
 # target specs = [Gain, input resistance, Vpp out, full power bandwidth]
-targets = np.array([100, 50, 5, 150*10**3])
+targets = np.array([100, 50, 5, 170*10**3])
+gain = np.array([2, 5, 10])
 
-
-f = np.loadtxt('Gain Combos.txt', unpack=True)
 
 # input the op-amp
 def get_gpb(array):
@@ -68,8 +67,23 @@ def is_3db(array):
         return False
 
 
-# find_gain()
-sr = find_sr(targets[2], targets[3])
-print('sr=', sr/10**6, 'V/us')
+# input in the input voltage and bandwidth, outputs the final slew rate
+def print_sr(inV, bw):
+    for n, ele in enumerate(gain):
+        inV = gain[n] * inV
+        sr = find_sr(inV, bw)
+        print('Voltage=', inV, 'V', 'Bandwidth=', bw, 'sr=', sr / 10 ** 6, 'V/us')
+    return sr
 
-# yeah
+
+# for loop to iterate bandwidths
+for b in range(120000, 200000, 10000):
+    print('BW=', b, 'Hz')
+    for v in range(4, 10):  # for loop to iterate input voltages
+        print('in V=', .01 * v)
+        if print_sr(.01 * v, b) > 2.9*10**6:  # if slew rate is greater than 2.9 X 10^6 then stop
+            break
+        print()
+    print()
+    print()
+
